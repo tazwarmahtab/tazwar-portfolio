@@ -1,21 +1,196 @@
 import Link from "next/link";
 import { Motion, Magnetic } from "../components/motion/Motion";
 import { SystemsMap } from "../components/systems/SystemsMap";
+import { Navigation } from "../components/navigation";
+import { Hero } from "../components/hero";
+import { PortraitAbout } from "../components/portrait-about";
+import { projects } from "../content/projects";
 
-const projects = [
-  { no: "01", category: "AI + ENERGY INFRASTRUCTURE", title: "Netso Energy OS", href: "/work/netso", desc: "An AI-enabled solar-energy product prototype exploring conversational assistance, live voice interaction, and grounded electricity-information retrieval.", status: "PROTOTYPE / ACTIVE DEVELOPMENT", stack: "React · TypeScript · Gemini · Web Audio", visual: "NETSO AI" },
-  { no: "02", category: "AI AGENTS / SYSTEMS", title: "LilTaz", href: "/work/liltaz", desc: "Autonomous AI agent infrastructure exploring persistent memory, tool execution, LLM provider abstraction, voice and vision, webhooks, and sandboxed execution.", status: "ACTIVE DEVELOPMENT", stack: "Rust · Tokio · Axum · SQLite · SurrealDB · MCP", visual: "AGENT CORE" },
-  { no: "03", category: "MOBILITY / PLATFORM", title: "TransitBD", href: "#", desc: "A Bangladesh-focused multimodal transit platform concept for discovering and navigating transportation options across fragmented modes.", status: "CONCEPT / DEVELOPMENT", stack: "Product architecture · Platform design", visual: "TRANSIT" },
-];
-function ProjectVisual({ label }: { label: string }) { return <div className="project-visual" aria-hidden="true"><div className="diagram-line"/><div className="diagram"><div className="diagram-core">{label}</div></div><span className="visual-arrow">↗</span></div>; }
-export default function Home() { return <Motion><main><div className="shell">
-<nav className="nav" aria-label="Main navigation"><Link className="brand" href="#top">Tazwar Mahtab</Link><div className="navlinks"><Link href="#work">Work</Link><Link href="#systems">Systems</Link><Link href="#about">About</Link><Link href="#resume">Build Log</Link><Link href="#contact">Contact</Link></div><Magnetic className="nav-action" href="#work">View Projects <span>↗</span></Magnetic></nav>
-<section className="hero" id="top"><div><div className="kicker" data-reveal>AI AUTOMATION ENGINEER / BUILDER</div><h1><span data-reveal>I build systems</span><span data-reveal>that run businesses</span><span data-reveal>and automate work.</span></h1></div><div className="hero-bottom" data-reveal><p className="lede">I design and build AI automation systems, agentic workflows, and real-world software that solve operational problems.</p><div className="hero-status"><span className="status-dot"/> AVAILABLE FOR WORK<br/><strong>Currently building Netso Energy</strong></div><div className="ctas"><Magnetic className="button button-fill" href="#work">View my work <span>↓</span></Magnetic><Magnetic className="button" href="#systems">See systems <span>↘</span></Magnetic></div></div></section>
-<section className="section about-section" id="about" data-scroll-reveal><div className="portrait-frame"><div className="portrait-placeholder"><span>TAZWAR<br/>PORTRAIT</span></div></div><div className="about-copy"><div className="kicker">ABOUT / 01</div><h2 className="section-title">Business first.<br/>Systems second.<br/>Build both.</h2><div className="about-grid"><p>I started from the business side. Building my own ventures pushed me deeper into software, automation, AI agents, and systems architecture.</p><p>That combination shapes how I work: understand the operational problem first, then build the smallest system that can solve it and keep improving it.</p></div><div className="principles">{["SYSTEMS THINKER","BUILDER","BUSINESS MINDSET","AI NATIVE"].map((x,i)=><div className="principle" key={x}><span>{String(i+1).padStart(2,"0")}</span>{x}</div>)}</div></div></section>
-<section className="section systems-section" id="systems"><div className="section-head" data-scroll-reveal><div><div className="kicker">SYSTEMS / 02</div><h2 className="section-title">I think<br/>in systems.</h2></div><p className="section-note">Start with the problem. Model the workflow. Connect the tools. Give the system memory. Make the action observable.</p></div><SystemsMap/></section>
-<section className="section" id="work"><div className="section-head" data-scroll-reveal><div><div className="kicker">SELECTED WORK / 03</div><h2 className="section-title">Things<br/>I build.</h2></div><p className="section-note">A small selection of systems and products. The portfolio prioritizes real implementation over inflated claims.</p></div><div className="projects">{projects.map(p=><article className="project" key={p.no} data-scroll-reveal><div className="project-no">{p.no}</div><div><div className="kicker">{p.category}</div>{p.href === "#" ? <h3 className="project-title">{p.title}</h3> : <Link href={p.href}><h3 className="project-title">{p.title}<span className="title-arrow">↗</span></h3></Link>}<p className="project-desc">{p.desc}</p><div className="project-meta"><span>{p.status}</span><span>{p.stack}</span></div></div>{p.href === "#" ? <ProjectVisual label={p.visual}/> : <Link href={p.href} className="project-visual-link" aria-label={`Open ${p.title} case study`}><ProjectVisual label={p.visual}/></Link>}</article>)}</div></section>
-<section className="section" data-scroll-reveal><div className="section-head"><div><div className="kicker">TECHNICAL STACK / 04</div><h2 className="section-title">Tools are<br/>just tools.</h2></div><p className="section-note">Technologies are listed according to actual project use, not keyword stuffing.</p></div><div className="stack">{[["AI / AGENTS","LLM systems","Agent orchestration","Tool use","Memory systems"],["AUTOMATION","Workflow design","API integrations","n8n"],["SOFTWARE","TypeScript","React / Next.js","Git / GitHub"],["SYSTEMS","Rust","Tokio / Axum","SQLite / SQLx"]].map(([label,...items])=><div className="stack-item" key={label}><div className="stack-label">{label}</div><div className="stack-value">{items.map(x=><div key={x}>{x}</div>)}</div></div>)}</div></section>
-<section className="section" id="resume" data-scroll-reveal><div className="section-head"><div><div className="kicker">BUILD LOG / 05</div><h2 className="section-title">Build in<br/>public.</h2></div><p className="section-note">Technical writing and deeper build notes will live here as they are published. No filler.</p></div><div className="log-list"><div className="log-row"><span>01</span><strong>Building an AI agent that can actually act.</strong><em>COMING SOON</em><b>↗</b></div><div className="log-row"><span>02</span><strong>Designing persistent memory for AI systems.</strong><em>COMING SOON</em><b>↗</b></div></div></section>
-<section className="contact" id="contact" data-scroll-reveal><div className="kicker">GET IN TOUCH / 06</div><h2>Have a problem<br/>worth automating?</h2><Magnetic className="button button-fill" href="mailto:tazwarmahtab@gmail.com">Start a conversation <span>↗</span></Magnetic></section>
-<footer className="footer"><span>Tazwar Mahtab</span><span>AI Automation Engineer / Builder</span><span>© 2026</span></footer>
-</div></main></Motion>; }
+function ProjectVisual({ label }: { label: string }) {
+  return (
+    <div className="project-visual" aria-hidden="true">
+      <div className="diagram-line" />
+      <div className="diagram">
+        <div className="diagram-core">{label}</div>
+      </div>
+      <span className="visual-arrow">↗</span>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Motion>
+      <main>
+        <div className="shell">
+          <Navigation />
+          <Hero />
+          <PortraitAbout />
+
+          <section className="section systems-section" id="systems">
+            <div className="section-head" data-scroll-reveal>
+              <div>
+                <div className="kicker">SYSTEMS / 02</div>
+                <h2 className="section-title">
+                  I think
+                  <br />
+                  in systems.
+                </h2>
+              </div>
+              <p className="section-note">
+                Start with the problem. Model the workflow. Connect the tools.
+                Give the system memory. Make the action observable.
+              </p>
+            </div>
+            <SystemsMap />
+          </section>
+
+          <section className="section" id="work">
+            <div className="section-head" data-scroll-reveal>
+              <div>
+                <div className="kicker">SELECTED WORK / 03</div>
+                <h2 className="section-title">
+                  Things
+                  <br />
+                  I build.
+                </h2>
+              </div>
+              <p className="section-note">
+                A small selection of systems and products. The portfolio
+                prioritizes real implementation over inflated claims.
+              </p>
+            </div>
+            <div className="projects">
+              {projects.map((p) => (
+                <article className="project" key={p.no} data-scroll-reveal>
+                  <div className="project-no">{p.no}</div>
+                  <div>
+                    <div className="kicker">{p.category}</div>
+                    {p.href === "#" ? (
+                      <h3 className="project-title">{p.title}</h3>
+                    ) : (
+                      <Link href={p.href}>
+                        <h3 className="project-title">
+                          {p.title}
+                          <span className="title-arrow">↗</span>
+                        </h3>
+                      </Link>
+                    )}
+                    <p className="project-desc">{p.desc}</p>
+                    <div className="project-meta">
+                      <span>{p.status}</span>
+                      <span>{p.stack}</span>
+                    </div>
+                  </div>
+                  {p.href === "#" ? (
+                    <ProjectVisual label={p.visual} />
+                  ) : (
+                    <Link
+                      href={p.href}
+                      className="project-visual-link"
+                      aria-label={`Open ${p.title} case study`}
+                    >
+                      <ProjectVisual label={p.visual} />
+                    </Link>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="section" data-scroll-reveal>
+            <div className="section-head">
+              <div>
+                <div className="kicker">TECHNICAL STACK / 04</div>
+                <h2 className="section-title">
+                  Tools are
+                  <br />
+                  just tools.
+                </h2>
+              </div>
+              <p className="section-note">
+                Technologies are listed according to actual project use, not
+                keyword stuffing.
+              </p>
+            </div>
+            <div className="stack">
+              {[
+                [
+                  "AI / AGENTS",
+                  "LLM systems",
+                  "Agent orchestration",
+                  "Tool use",
+                  "Memory systems",
+                ],
+                ["AUTOMATION", "Workflow design", "API integrations", "n8n"],
+                ["SOFTWARE", "TypeScript", "React / Next.js", "Git / GitHub"],
+                ["SYSTEMS", "Rust", "Tokio / Axum", "SQLite / SQLx"],
+              ].map(([label, ...items]) => (
+                <div className="stack-item" key={label}>
+                  <div className="stack-label">{label}</div>
+                  <div className="stack-value">
+                    {items.map((x) => (
+                      <div key={x}>{x}</div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="section" id="resume" data-scroll-reveal>
+            <div className="section-head">
+              <div>
+                <div className="kicker">BUILD LOG / 05</div>
+                <h2 className="section-title">
+                  Build in
+                  <br />
+                  public.
+                </h2>
+              </div>
+              <p className="section-note">
+                Technical writing and deeper build notes will live here as they
+                are published. No filler.
+              </p>
+            </div>
+            <div className="log-list">
+              <div className="log-row">
+                <span>01</span>
+                <strong>Building an AI agent that can actually act.</strong>
+                <em>COMING SOON</em>
+                <b>↗</b>
+              </div>
+              <div className="log-row">
+                <span>02</span>
+                <strong>Designing persistent memory for AI systems.</strong>
+                <em>COMING SOON</em>
+                <b>↗</b>
+              </div>
+            </div>
+          </section>
+
+          <section className="contact" id="contact" data-scroll-reveal>
+            <div className="kicker">GET IN TOUCH / 06</div>
+            <h2>
+              Have a problem
+              <br />
+              worth automating?
+            </h2>
+            <Magnetic
+              className="button button-fill"
+              href="mailto:tazwarmahtab@gmail.com"
+            >
+              Start a conversation <span>↗</span>
+            </Magnetic>
+          </section>
+
+          <footer className="footer">
+            <span>Tazwar Mahtab</span>
+            <span>AI Automation Engineer / Builder</span>
+            <span>© 2026</span>
+          </footer>
+        </div>
+      </main>
+    </Motion>
+  );
+}
