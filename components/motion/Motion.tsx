@@ -11,18 +11,21 @@ type MotionAnchorProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
-function canUsePointerMotion() {
-  return (
-    window.matchMedia("(prefers-reduced-motion: no-preference)").matches &&
-    window.matchMedia("(pointer: fine)").matches
-  );
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function hasFinePointer() {
+  return window.matchMedia("(pointer: fine)").matches;
 }
 
 export function Motion({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (!root.current || !canUsePointerMotion()) return;
+    if (!root.current || prefersReducedMotion()) return;
+
+    const finePointer = hasFinePointer();
 
     const ctx = gsap.context(() => {
       gsap.from("[data-reveal]", {
@@ -36,13 +39,13 @@ export function Motion({ children }: { children: ReactNode }) {
 
       gsap.utils.toArray<HTMLElement>("[data-scroll-reveal]").forEach((el) => {
         gsap.from(el, {
-          y: 34,
+          y: finePointer ? 34 : 18,
           opacity: 0,
-          duration: 0.78,
+          duration: finePointer ? 0.78 : 0.55,
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 88%",
+            start: finePointer ? "top 88%" : "top 92%",
             once: true,
           },
         });
@@ -54,49 +57,51 @@ export function Motion({ children }: { children: ReactNode }) {
           { scaleX: 0, transformOrigin: "left center" },
           {
             scaleX: 1,
-            duration: 0.9,
+            duration: finePointer ? 0.9 : 0.6,
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 92%", once: true },
           },
         );
       });
 
-      gsap.utils.toArray<HTMLElement>("[data-pointer-media]").forEach((el) => {
-        const media = el.querySelector<HTMLElement>("[data-pointer-media-inner]");
-        if (!media) return;
+      if (finePointer) {
+        gsap.utils.toArray<HTMLElement>("[data-pointer-media]").forEach((el) => {
+          const media = el.querySelector<HTMLElement>("[data-pointer-media-inner]");
+          if (!media) return;
 
-        const move = (event: PointerEvent) => {
-          const rect = el.getBoundingClientRect();
-          const x = (event.clientX - rect.left) / rect.width - 0.5;
-          const y = (event.clientY - rect.top) / rect.height - 0.5;
-          gsap.to(media, {
-            x: x * 8,
-            y: y * 6,
-            scale: 1.018,
-            duration: 0.45,
-            ease: "power3.out",
-            overwrite: true,
+          const move = (event: PointerEvent) => {
+            const rect = el.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+            gsap.to(media, {
+              x: x * 8,
+              y: y * 6,
+              scale: 1.018,
+              duration: 0.45,
+              ease: "power3.out",
+              overwrite: true,
+            });
+          };
+
+          const reset = () => {
+            gsap.to(media, {
+              x: 0,
+              y: 0,
+              scale: 1,
+              duration: 0.65,
+              ease: "power3.out",
+              overwrite: true,
+            });
+          };
+
+          el.addEventListener("pointermove", move);
+          el.addEventListener("pointerleave", reset);
+          ctx.add(() => {
+            el.removeEventListener("pointermove", move);
+            el.removeEventListener("pointerleave", reset);
           });
-        };
-
-        const reset = () => {
-          gsap.to(media, {
-            x: 0,
-            y: 0,
-            scale: 1,
-            duration: 0.65,
-            ease: "power3.out",
-            overwrite: true,
-          });
-        };
-
-        el.addEventListener("pointermove", move);
-        el.addEventListener("pointerleave", reset);
-        ctx.add(() => {
-          el.removeEventListener("pointermove", move);
-          el.removeEventListener("pointerleave", reset);
         });
-      });
+      }
     }, root);
 
     return () => ctx.revert();
@@ -109,7 +114,7 @@ export function Magnetic({ children, className = "", ...props }: MotionAnchorPro
   const ref = useRef<HTMLAnchorElement>(null);
 
   const move = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!canUsePointerMotion() || !ref.current) return;
+    if (prefersReducedMotion() || !hasFinePointer() || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const x = (event.clientX - (rect.left + rect.width / 2)) * 0.08;
     const y = (event.clientY - (rect.top + rect.height / 2)) * 0.08;
