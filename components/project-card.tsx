@@ -3,12 +3,14 @@ import type { Project } from "../content/projects";
 
 function ProjectVisual({ label }: { label: string }) {
   return (
-    <div className="project-visual" aria-hidden="true">
-      <div className="diagram-line" />
-      <div className="diagram">
-        <div className="diagram-core">{label}</div>
+    <div className="project-visual" data-pointer-media aria-hidden="true">
+      <div className="project-visual-inner" data-pointer-media-inner>
+        <div className="diagram-line" />
+        <div className="diagram">
+          <div className="diagram-core">{label}</div>
+        </div>
+        <span className="visual-arrow">↗</span>
       </div>
-      <span className="visual-arrow">↗</span>
     </div>
   );
 }
@@ -19,15 +21,15 @@ export function ProjectCard({ project }: { project: Project }) {
   return (
     <article className="project" data-scroll-reveal>
       <div className="project-no">{no}</div>
-      <div>
+      <div className="project-copy">
         <div className="kicker">{category}</div>
         {href === "#" ? (
           <h3 className="project-title">{title}</h3>
         ) : (
-          <Link href={href}>
+          <Link href={href} className="project-title-link">
             <h3 className="project-title">
               {title}
-              <span className="title-arrow">↗</span>
+              <span className="title-arrow" aria-hidden="true">↗</span>
             </h3>
           </Link>
         )}
