@@ -1,22 +1,12 @@
-import Link from "next/link";
-import { Motion, Magnetic } from "../components/motion/Motion";
+import { Motion } from "../components/motion/Motion";
 import { SystemsMap } from "../components/systems/SystemsMap";
 import { Navigation } from "../components/navigation";
 import { Hero } from "../components/hero";
 import { PortraitAbout } from "../components/portrait-about";
-import { projects } from "../content/projects";
-
-function ProjectVisual({ label }: { label: string }) {
-  return (
-    <div className="project-visual" aria-hidden="true">
-      <div className="diagram-line" />
-      <div className="diagram">
-        <div className="diagram-core">{label}</div>
-      </div>
-      <span className="visual-arrow">↗</span>
-    </div>
-  );
-}
+import { ProjectList } from "../components/project-list";
+import { BuildLog } from "../components/build-log";
+import { Contact } from "../components/contact";
+import { Footer } from "../components/footer";
 
 export default function Home() {
   return (
@@ -45,58 +35,7 @@ export default function Home() {
             <SystemsMap />
           </section>
 
-          <section className="section" id="work">
-            <div className="section-head" data-scroll-reveal>
-              <div>
-                <div className="kicker">SELECTED WORK / 03</div>
-                <h2 className="section-title">
-                  Things
-                  <br />
-                  I build.
-                </h2>
-              </div>
-              <p className="section-note">
-                A small selection of systems and products. The portfolio
-                prioritizes real implementation over inflated claims.
-              </p>
-            </div>
-            <div className="projects">
-              {projects.map((p) => (
-                <article className="project" key={p.no} data-scroll-reveal>
-                  <div className="project-no">{p.no}</div>
-                  <div>
-                    <div className="kicker">{p.category}</div>
-                    {p.href === "#" ? (
-                      <h3 className="project-title">{p.title}</h3>
-                    ) : (
-                      <Link href={p.href}>
-                        <h3 className="project-title">
-                          {p.title}
-                          <span className="title-arrow">↗</span>
-                        </h3>
-                      </Link>
-                    )}
-                    <p className="project-desc">{p.desc}</p>
-                    <div className="project-meta">
-                      <span>{p.status}</span>
-                      <span>{p.stack}</span>
-                    </div>
-                  </div>
-                  {p.href === "#" ? (
-                    <ProjectVisual label={p.visual} />
-                  ) : (
-                    <Link
-                      href={p.href}
-                      className="project-visual-link"
-                      aria-label={`Open ${p.title} case study`}
-                    >
-                      <ProjectVisual label={p.visual} />
-                    </Link>
-                  )}
-                </article>
-              ))}
-            </div>
-          </section>
+          <ProjectList />
 
           <section className="section" data-scroll-reveal>
             <div className="section-head">
@@ -138,57 +77,9 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="section" id="resume" data-scroll-reveal>
-            <div className="section-head">
-              <div>
-                <div className="kicker">BUILD LOG / 05</div>
-                <h2 className="section-title">
-                  Build in
-                  <br />
-                  public.
-                </h2>
-              </div>
-              <p className="section-note">
-                Technical writing and deeper build notes will live here as they
-                are published. No filler.
-              </p>
-            </div>
-            <div className="log-list">
-              <div className="log-row">
-                <span>01</span>
-                <strong>Building an AI agent that can actually act.</strong>
-                <em>COMING SOON</em>
-                <b>↗</b>
-              </div>
-              <div className="log-row">
-                <span>02</span>
-                <strong>Designing persistent memory for AI systems.</strong>
-                <em>COMING SOON</em>
-                <b>↗</b>
-              </div>
-            </div>
-          </section>
-
-          <section className="contact" id="contact" data-scroll-reveal>
-            <div className="kicker">GET IN TOUCH / 06</div>
-            <h2>
-              Have a problem
-              <br />
-              worth automating?
-            </h2>
-            <Magnetic
-              className="button button-fill"
-              href="mailto:tazwarmahtab@gmail.com"
-            >
-              Start a conversation <span>↗</span>
-            </Magnetic>
-          </section>
-
-          <footer className="footer">
-            <span>Tazwar Mahtab</span>
-            <span>AI Automation Engineer / Builder</span>
-            <span>© 2026</span>
-          </footer>
+          <BuildLog />
+          <Contact />
+          <Footer />
         </div>
       </main>
     </Motion>
