@@ -1,0 +1,221 @@
+/* Motion and interaction layer. Kept separate so the editorial visual system stays stable. */
+
+[data-reveal],
+[data-scroll-reveal],
+[data-line],
+[data-pointer-media] {
+  will-change: transform, opacity;
+}
+
+.button,
+.nav-action {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+
+.button span,
+.nav-action span,
+.title-arrow,
+.visual-arrow {
+  display: inline-block;
+  transition: transform 260ms cubic-bezier(.22,1,.36,1);
+}
+
+.button:hover span,
+.nav-action:hover span,
+.project-title-link:hover .title-arrow,
+.project-visual-link:hover .visual-arrow {
+  transform: translate(3px, -2px);
+}
+
+.button:active,
+.nav-action:active {
+  transform: scale(.985);
+}
+
+.button:focus-visible,
+.nav-action:focus-visible,
+.navlinks a:focus-visible,
+.brand:focus-visible,
+.project-title-link:focus-visible,
+.project-visual-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.navlinks a {
+  position: relative;
+  transition: color 180ms ease;
+}
+
+.navlinks a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -7px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 260ms cubic-bezier(.22,1,.36,1);
+}
+
+.navlinks a:hover::after,
+.navlinks a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.project {
+  position: relative;
+  transition: background-color 300ms ease;
+}
+
+.project:hover {
+  background: color-mix(in srgb, var(--panel) 32%, transparent);
+}
+
+.project-title-link {
+  display: inline-block;
+}
+
+.project-title {
+  transition: transform 360ms cubic-bezier(.22,1,.36,1);
+}
+
+.project-visual-link {
+  display: block;
+}
+
+.project-visual {
+  isolation: isolate;
+}
+
+.project-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid transparent;
+  transition: border-color 280ms ease;
+  pointer-events: none;
+}
+
+.project:hover .project-visual::after,
+.project-visual-link:focus-visible .project-visual::after {
+  border-color: var(--ink);
+}
+
+.project-visual-inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.visual-arrow {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  font-size: 20px;
+  color: var(--muted);
+}
+
+.diagram-core {
+  transition: transform 420ms cubic-bezier(.22,1,.36,1), background-color 260ms ease;
+}
+
+.project:hover .diagram-core {
+  transform: scale(1.035);
+  background: var(--bg);
+}
+
+.system-step {
+  min-width: 0;
+}
+
+.system-node {
+  transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, transform 240ms ease;
+}
+
+.system-node:hover {
+  transform: translateY(-2px);
+}
+
+.system-node:active {
+  transform: translateY(0) scale(.992);
+}
+
+.system-connector {
+  display: block;
+  height: 1px;
+  width: 100%;
+  margin-top: 1px;
+  background: var(--line);
+  transform-origin: left center;
+}
+
+.system-desc {
+  transition: opacity 240ms ease, transform 300ms cubic-bezier(.22,1,.36,1);
+}
+
+@media (pointer: coarse) {
+  .project:hover {
+    background: transparent;
+  }
+
+  .project:hover .project-title,
+  .project:hover .diagram-core {
+    transform: none;
+  }
+
+  .system-node:hover {
+    transform: none;
+  }
+
+  .navlinks a::after {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  [data-reveal],
+  [data-scroll-reveal] {
+    will-change: auto;
+  }
+
+  .button,
+  .nav-action {
+    min-height: 44px;
+  }
+
+  .project-visual-inner {
+    transform: none !important;
+  }
+
+  .system-connector {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  [data-reveal],
+  [data-scroll-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .project-visual-inner {
+    transform: none !important;
+  }
+}

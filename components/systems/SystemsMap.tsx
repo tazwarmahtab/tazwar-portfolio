@@ -22,27 +22,36 @@ export function SystemsMap() {
   const [active, setActive] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!ref.current) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || !ref.current) return;
+    if (reduce) return;
 
     const ctx = gsap.context(() => {
       const items = gsap.utils.toArray<HTMLElement>(".system-node");
       gsap.from(items, {
         opacity: 0,
-        y: 20,
-        stagger: 0.09,
-        duration: 0.6,
+        y: 18,
+        stagger: 0.075,
+        duration: 0.58,
         ease: "power3.out",
-        scrollTrigger: { trigger: ref.current, start: "top 78%", once: true },
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top 80%",
+          once: true,
+        },
       });
 
       gsap.from(".system-connector", {
-        scaleY: 0,
-        transformOrigin: "top",
-        stagger: 0.09,
+        scaleX: 0,
+        transformOrigin: "left center",
+        stagger: 0.075,
         duration: 0.5,
         ease: "power2.out",
-        scrollTrigger: { trigger: ref.current, start: "top 78%", once: true },
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top 80%",
+          once: true,
+        },
       });
     }, ref);
 
@@ -64,7 +73,9 @@ export function SystemsMap() {
             onMouseLeave={() => setActive(null)}
             onFocus={() => setActive(node.id)}
             onBlur={() => setActive(null)}
+            onClick={() => setActive((current) => (current === node.id ? null : node.id))}
             aria-describedby={`system-desc-${index}`}
+            aria-pressed={active === node.id}
           >
             <span className="system-num">
               {String(index + 1).padStart(2, "0")}

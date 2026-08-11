@@ -11,13 +11,14 @@ export function PortraitAbout() {
   return (
     <section className="section about-section" id="about" data-scroll-reveal>
       <div className="portrait-frame">
-        <div className="portrait-image-wrap">
+        <div className="portrait-image-wrap" data-pointer-media>
           <Image
             src="/images/tazwar/portrait.jpg"
             alt="Tazwar Mahtab — AI Automation Engineer & Builder"
             width={1500}
             height={2254}
             className="portrait-image"
+            data-pointer-media-inner
             sizes="(max-width: 800px) 100vw, 40vw"
             priority={false}
             quality={88}
