@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tazwar Portfolio"
+  short_description: "Repo-specific patterns and workflows for tazwar-portfolio"
+  default_prompt: "Use the tazwar-portfolio repo skill to follow existing architecture, testing, and workflow conventions."
+policy:
+  allow_implicit_invocation: true
