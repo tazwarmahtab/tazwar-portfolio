@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 const pillars = [
   "SYSTEMS THINKER",
   "BUILDER",
@@ -7,21 +5,24 @@ const pillars = [
   "AI NATIVE",
 ];
 
+const portraitSrc =
+  "https://res.cloudinary.com/dzehajwt2/image/upload/f_auto,q_auto,w_900/tazwar-portfolio/portrait.jpg";
+
 export function PortraitAbout() {
   return (
     <section className="section about-section" id="about" data-scroll-reveal>
       <div className="portrait-frame">
         <div className="portrait-image-wrap" data-pointer-media>
-          <Image
-            src="/images/tazwar/portrait.jpg"
+          <img
+            src={portraitSrc}
             alt="Tazwar Mahtab — AI Automation Engineer & Builder"
-            width={1500}
-            height={2254}
+            width={499}
+            height={750}
             className="portrait-image"
             data-pointer-media-inner
             sizes="(max-width: 800px) 100vw, 40vw"
-            priority={false}
-            quality={88}
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
